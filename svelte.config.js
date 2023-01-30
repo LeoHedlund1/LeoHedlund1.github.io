@@ -15,7 +15,7 @@ const config = {
 	// for more information about preprocessors
 	preprocess: [preprocess(), mdsvex({
 		extensions: ['.md', '.svx'],
-		layout: { blog: './src/routes/blog/post.svelte' },
+		layout: { blog: 'C:/Users/leohed02/Documents/GitHub/leohedlund1.github.io/src/routes/blog/post.svelte' },
 	})],
 
 	kit: {
@@ -42,7 +42,7 @@ const config = {
 			remarkGithub,
 			{
 				// Use your own repository
-				repository: 'https://github.com/williamviktorsson/williamviktorsson.github.io.git'
+				repository: 'https://github.com/LeoHedlund1/leohedlund1.github.io.git'
 			}
 		],
 		remarkAbbr
