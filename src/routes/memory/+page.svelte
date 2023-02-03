@@ -1,5 +1,5 @@
 <script>
-  //1084
+  
   let cards = [];
   let cardid = 0;
 
