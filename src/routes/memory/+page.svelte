@@ -1,12 +1,21 @@
 <script>
+  //1084
   let cards = [];
-  for (let index = 0; index < 4; index++) {
-    cards.push({
-      id: 5, // TODO: unique ids per card card
-      img: "/notrick.gif", // TODO: unique images per card card
-      flipped: true,  // TODO: think
-      completed: false,
-    });
+  let cardid = 0;
+
+  for (let index = 0; index < 25; index++) {
+
+    let imgid = Math.floor(Math.random() * 1084);
+
+    for (let i = 0; i < 2; i++) {
+      cards.push({
+        id: cardid, 
+        img: "https://picsum.photos/id/100/100" + imgid, // TODO: unique images per card card
+        flipped: true,  // TODO: think
+        completed: false,
+      });
+      cardid++;
+    }
   }
   let flipcount = 0;
   function flip(card) {
@@ -14,14 +23,28 @@
     // TODO: and card is already not flipped
     if (card.flipped && flipcount < 2) {
       // TODO: Probably do what?
-
+      card.flipped = false;
+      flipcount++;
       // flip the cards over after 2s from seeing both cards
-      if (flipcount == 4) {
+      if (flipcount > 1) {
         setTimeout(() => {
           // flip over cards that have not been marked as "completed"
+          let flippedCards = [];
+
           cards.forEach((card) => {
-            card.flipped = card.completed;
+            if (card.flipped && !card.completed) {
+              flippedCards = [];
+            }
           });
+          if (flippedCards[0].cardid == flippedCards[1].cardid) {
+            flippedCards[0].completed = true;
+            flippedCards[1].completed = true;
+          }
+
+          cards.forEach((card) => {
+            card.flipped = !card.completed;
+          });
+
           flipcount = 0;
           cards = cards;
         }, 2000);
@@ -46,8 +69,8 @@
         class:flipped={card.flipped}
         class="card"
       >
-        <img class="front" src={card.img} alt="" />
-        <img class="back" src="front.webp" alt="" />
+        <img class="front" src=front.webp alt="" />
+        <img class="back" src={card.img} alt="" />
       </div>
     {/each}
   </div>
@@ -64,8 +87,8 @@
   .row {
     display: grid;
     gap: 20px;
-    grid-template-columns: repeat(3, 100px);
-    grid-template-rows: repeat(3, 100px);
+    grid-template-columns: repeat(10, 100px);
+    grid-template-rows: repeat(5, 100px);
   }
 
   .card {
