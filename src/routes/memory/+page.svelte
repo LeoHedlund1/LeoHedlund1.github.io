@@ -1,24 +1,66 @@
 <script>
   
+  function getID(list) {
+    let newID = Math.floor(Math.random() * 1084) 
+    for (let i = 0; i < list; i++) {
+      if (newID == list[i]){
+        newID = getID(list);
+        console.log("a")
+      }
+    }
+    return newID;
+  }
+
   let cards = [];
   let cardid = 0;
+  let imgList = [];
 
   for (let index = 0; index < 25; index++) {
 
-    let imgid = Math.floor(Math.random() * 1084);
-
-    for (let i = 0; i < 2; i++) {
-      cards.push({
-        id: cardid, 
-        img: "https://picsum.photos/id/100/100" + imgid, // TODO: unique images per card card
-        flipped: true,  // TODO: think
-        completed: false,
-      });
+    let imgid = Math.floor(Math.random() * 25);
+    if(!imgList.includes(imgid))
+    {
+      imgList.push(imgid);
+      for (let i = 0; i < 2; i++) {
+        cards.push({
+          id: cardid, 
+          img: "https://picsum.photos/id/" + imgid + "/400/400",
+          flipped: true,
+          completed: false,
+        });
+      }
       cardid++;
+    } else {
+      index--;
     }
   }
+
+  // shuffle cards
+  function shuffle(array) {
+  let currentIndex = array.length,  randomIndex;
+
+  // While there remain elements to shuffle.
+  while (currentIndex != 0) {
+
+    // Pick a remaining element.
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+
+  return array;
+}
+
+cards = shuffle(cards)
+
   let flipcount = 0;
+  let cardList = [];
+
   function flip(card) {
+    cardList.push(card)
     // flip card over if two cards are not already flipped
     // TODO: and card is already not flipped
     if (card.flipped && flipcount < 2) {
@@ -26,28 +68,32 @@
       card.flipped = false;
       flipcount++;
       // flip the cards over after 2s from seeing both cards
-      if (flipcount > 1) {
+      if (flipcount == 2) {
         setTimeout(() => {
-          // flip over cards that have not been marked as "completed"
-          let flippedCards = [];
-
-          cards.forEach((card) => {
-            if (card.flipped && !card.completed) {
-              flippedCards = [];
-            }
-          });
-          if (flippedCards[0].cardid == flippedCards[1].cardid) {
-            flippedCards[0].completed = true;
-            flippedCards[1].completed = true;
+          // mark matching cards as completed
+          if (cardList[0].id == cardList[1].id){
+            cardList[0].completed = true;
+            cardList[1].completed = true;
           }
 
-          cards.forEach((card) => {
-            card.flipped = !card.completed;
-          });
+          // flip over cards that have not been marked as "completed"
+          let allComplete = true;
+          cards.forEach((c) => {
+            if (!c.completed) {
+              allComplete = false;
+            }
+            c.flipped = !c.completed;
+          })
 
           flipcount = 0;
+          cardList = [];
           cards = cards;
-        }, 2000);
+
+          if (allComplete) {
+            alert("complete")
+          }
+
+        }, 1000);
       }
       cards = cards;
     } else {
