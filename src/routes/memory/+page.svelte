@@ -1,29 +1,24 @@
 <script>
-  
-  function getID(list) {
-    let newID = Math.floor(Math.random() * 1084) 
-    for (let i = 0; i < list; i++) {
-      if (newID == list[i]){
-        newID = getID(list);
-        console.log("a")
-      }
-    }
-    return newID;
-  }
 
+  let matchedCards = 0;
   let cards = [];
   let cardid = 0;
   let imgList = [];
+  let progressboxes = [];
 
-  for (let index = 0; index < 25; index++) {
+  for (let index = 0; index < 20; index++) {
 
-    let imgid = Math.floor(Math.random() * 25);
+    progressboxes.push({visible: false});
+
+    let imgid = Math.floor(Math.random() * 1084);
+
     if(!imgList.includes(imgid))
     {
       imgList.push(imgid);
       for (let i = 0; i < 2; i++) {
         cards.push({
-          id: cardid, 
+          id: cardid,
+          //either fix images not appearing or add own images
           img: "https://picsum.photos/id/" + imgid + "/400/400",
           flipped: true,
           completed: false,
@@ -35,18 +30,14 @@
     }
   }
 
-  // shuffle cards
   function shuffle(array) {
   let currentIndex = array.length,  randomIndex;
 
-  // While there remain elements to shuffle.
   while (currentIndex != 0) {
 
-    // Pick a remaining element.
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex--;
 
-    // And swap it with the current element.
     [array[currentIndex], array[randomIndex]] = [
       array[randomIndex], array[currentIndex]];
   }
@@ -60,23 +51,24 @@ cards = shuffle(cards)
   let cardList = [];
 
   function flip(card) {
+
     cardList.push(card)
-    // flip card over if two cards are not already flipped
-    // TODO: and card is already not flipped
+
     if (card.flipped && flipcount < 2) {
-      // TODO: Probably do what?
+
       card.flipped = false;
       flipcount++;
-      // flip the cards over after 2s from seeing both cards
+
       if (flipcount == 2) {
         setTimeout(() => {
-          // mark matching cards as completed
+
           if (cardList[0].id == cardList[1].id){
             cardList[0].completed = true;
             cardList[1].completed = true;
+            progressboxes[matchedCards].visible = true;
+            matchedCards++;
           }
 
-          // flip over cards that have not been marked as "completed"
           let allComplete = true;
           cards.forEach((c) => {
             if (!c.completed) {
@@ -97,6 +89,7 @@ cards = shuffle(cards)
       }
       cards = cards;
     } else {
+      //play sound instead
       alert("chill");
     }
   }
@@ -114,18 +107,26 @@ cards = shuffle(cards)
         }}
         class:flipped={card.flipped}
         class="card"
+        class:completed={card.completed}
       >
         <img class="front" src=front.webp alt="" />
         <img class="back" src={card.img} alt="" />
       </div>
     {/each}
   </div>
+  <p>Remaining: {20 - matchedCards}</p>
+  <div id="progressbar">
+    {#each progressboxes as box}
+      <div class="box" class:visible={box.visible}></div>
+    {/each}
+  </div>
+  
 </main>
 
 <style>
   main {
     margin-top: 50px;
-    display: flex;
+    display: block;
     place-content: center;
     place-items: center;
   }
@@ -134,11 +135,12 @@ cards = shuffle(cards)
     display: grid;
     gap: 20px;
     grid-template-columns: repeat(10, 100px);
-    grid-template-rows: repeat(5, 100px);
+    grid-template-rows: repeat(4, 100px);
+    justify-content: center;
   }
 
   .card {
-    border: 1px solid black;
+    border: 5px solid red;
     cursor: pointer;
     transition: transform 1s;
     transform-style: preserve-3d;
@@ -166,4 +168,33 @@ cards = shuffle(cards)
     -webkit-backface-visibility: hidden;
     position: absolute;
   }
+
+  .card.completed {
+    border: 5px solid lime;
+  }
+
+  p {
+    text-align: center;
+    font-size: 40px;
+    white-space: nowrap;
+  }
+
+  #progressbar {
+    display: grid;
+    grid-template-columns: repeat(20, 5%);
+    grid-template-rows: repeat(1, 55px);
+    border: 1px solid black;
+  }
+
+  .box {
+    width: 100%;
+    height: 100%;
+    background-color: lime;
+    opacity: 0%;
+  }
+
+  .box.visible {
+    opacity: 100%;
+  }
+
 </style>
