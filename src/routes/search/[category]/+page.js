@@ -16,7 +16,7 @@ export async function load({ params, fetch }) {
 
     /* Perform a networked HTTP GET request to an external API  */
     /* Documentation: https://random-data-api.com/documentation */
-    const response = await fetch('https://random-data-api.com/api/v2/' + "OOOGABOOGA" + '?size=100&response_type=json', {
+    const response = await fetch('https://random-data-api.com/api/v2/' + params.category + '?size=100&response_type=json', {
         method: 'GET', // *GET, POST, PUT, DELETE, etc.
         headers: {
             'Content-Type': 'application/json'

@@ -10,7 +10,7 @@
   <!-- TODO: Style the results -->
   <div>
     {#each data.response as item}
-      <article><p>{JSON.stringify(item)}</p></article>
+      <h1>{JSON.stringify(item)}</h1>
     {/each}
   </div>
 </main>

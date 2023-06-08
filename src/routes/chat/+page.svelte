@@ -2,24 +2,32 @@
   import { enhance } from "$app/forms";
   import "elizabot";
   import ElizaBot from "elizabot";
+  import "@picocss/pico"
 
   let eliza = new ElizaBot();
+  let chat = [{ user: "Elias", text: eliza.getInitial() }];
+  let text = [];
 
-  let chat = [{ user: "eliza", text: eliza.getInitial() }];
+  async function write() {
+    let textInput = document.getElementById("newText").value;
+    if (textInput === "") {
+      alert("hur glömmer man att skriva?");
+      return;
+    }
 
-  async function write(message) {
-    // TODO: yeet in the new message
+    await new Promise((r) => setTimeout(r, 100 + Math.random() * 100));
 
-    // random delay for writing
-    await new Promise((r) => setTimeout(r, 1000 + Math.random() * 1000));
+    chat.unshift({ user: "you", text: textInput });
+    chat.unshift({ user: "Elias", text: eliza.transform(textInput) });
 
-    // TODO: write the text
+    chat = chat;
+    text = text;
+    document.getElementById("newText").value = "";
   }
 </script>
 
-
 <svelte:head>
-  <link rel="stylesheet" href="/pico.min.css" />
+  <link rel="stylesheet" href="css/pico.min.css">
   <style>
     nav {
       margin-left: 10%;
@@ -29,26 +37,24 @@
 </svelte:head>
 
 <div class="container">
-  <h1>TODO: Complete assignment</h1>
-  <div class="scrollable">
-    <!-- TODO: loop over the messages and display them -->
+  <h1>Eliasbot</h1>
+  <div class="scrollable"></div>
+  <form method="post" use:enhance={({ form, data, action, cancel }) => {
+      cancel();
+      const text = data.get("text");
+      write();
+    }}>
+    <input type="text" name="text" id="newText" />
+    <button class="submitbutton" type="button" on:click={() => write()}>Done</button>
+  </form>
+
+  {#each chat as obj, i}
+  <div>
     <article>
       <span>
-        {chat[0].text}
+        {obj.user}: {obj.text}
       </span>
     </article>
   </div>
-  <form
-    method="post"
-    use:enhance={({ form, data, action, cancel }) => {
-      /* https://kit.svelte.dev/docs/form-actions#progressive-enhancement */
-      cancel(); //don't post anything to server
-      const text = data.get("text");
-      write(text);
-
-      // TODO: reset the form using form.reset()
-    }}
-  >
-    <input type="text" name="text" />
-  </form>
+  {/each}
 </div>

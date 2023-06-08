@@ -21,7 +21,7 @@
 <style>
 
     main{
-        height: 100vh;
+        height: 100vh; 
         width: 100%;
     }
 

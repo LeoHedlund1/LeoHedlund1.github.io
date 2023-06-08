@@ -1,5 +1,7 @@
 export let stories = [
-     {id:"1",message: "The greatest story ever.", img:"wave.jpeg",choices:[{id:"2",text:"Begin"}]},
-    {id:"2",message: "What will be your path?", img:"choice.jpeg",choices:[{id:"3",text:"Left"},{id:"4",text:"Right"}]},
-     {id:"3",message: "Wrong! Try again!", img:"choice.jpeg",choices:[{id:"4",text:"Other right"},{id:"4",text:"Right"}]},
-     {id:"4",message: "🤣🤣🤣🤣🤣", html: '<div style="width:480px"><iframe allow="fullscreen" frameBorder="0" height="360" src="https://giphy.com/embed/uhYPkjP03h9RvVdazZ/video" width="480"></iframe></div>',choices:[{id:"1",text:"Reset!"}]} ]
+     {id:"1",message: "Du flyger till Las Vegas och ska på casino", img:"vegas.jpg",choices:[{id:"2",text:"Gå in"}]},
+    {id:"2",message: "I vems svit ska du gambla?", img:"ice_kanye.webp",choices:[{id:"3",text:"Ice Spices"},{id:"4",text:"Kanyes"}]},
+     {id:"3",message: "Elias är redan där och det är fullt. gå någon annanstans", img:"bouncer.webp",choices:[{id:"4",text:"Till Kanye"},{id:"4",text:"Till Yeezus"}]},
+     {id:"4",message: "Kanye ger dig mycket pengar",img:"kanye.jpg", choices:[{id:"5",text:"gambla med hans pengar"},{id:"6",text:"gambla med dina egna och behåll hans"}]} ,
+     {id:"5",message: "Du förlorar allting och allt du äger.",img:"homeless.jpeg", choices:[{id:"1",text:"promenera hem"}]}   , 
+     {id:"6",message: "Du fick jackpotten och är miljardär",img:"swim.gif", choices:[{id:"1",text:"Åk hem i privatjet"}]} ]
